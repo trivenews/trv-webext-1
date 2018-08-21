@@ -2,6 +2,7 @@
   "name": "Trive",
   "homepage_url": "https://verify.trive.news",
   "manifest_version": 2,
+  "author": "devkabiir <dev@kabiir.me>",
   "icons": {
     "16": "static/icons/trive-16.png",
     "32": "static/icons/trive-32.png",
