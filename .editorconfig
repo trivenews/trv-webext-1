@@ -1,0 +1,22 @@
+root = true
+
+[*]
+charset = utf-8
+indent_style = space
+indent_size = 2
+end_of_line = lf
+insert_final_newline = true
+trim_trailing_whitespace = true
+
+# The JSON files contain newlines inconsistently
+[*.json]
+insert_final_newline = false
+
+# Minified JavaScript files shouldn't be changed
+[**.min.js]
+indent_style = ignore
+insert_final_newline = ignore
+
+# Markdown has special meaning for whitespace
+[*.md]
+trim_trailing_whitespace = false

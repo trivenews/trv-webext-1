@@ -1,0 +1,12 @@
+{
+  "files.exclude": {
+    "__error": "Not found",
+    "**/node_modules": true,
+    "**/node_modules.*": true
+  },
+  "spellright.language": "en",
+  "spellright.documentTypes": [
+    "markdown",
+    "latex"
+  ]
+}

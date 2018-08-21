@@ -1,0 +1,55 @@
+{
+  "name": "Trive",
+  "description": "Trive companion webextension",
+  "homepage_url": "https://verify.trive.news",
+  "manifest_version": 2,
+  "icons": {
+    "16": "static/icons/trive-16.png",
+    "32": "static/icons/trive-32.png",
+    "24": "static/icons/trive-24.png",
+    "48": "static/icons/trive-48.png",
+    "64": "static/icons/trive-64.png",
+    "128": "static/icons/trive-128.png"
+  },
+  "background": {
+    "scripts": [
+      "background.js"
+    ],
+    "persistent": true
+  },
+  "content_scripts": [
+    {
+      "js": [
+        "content.js"
+      ],
+      "css": [
+        "content.css"
+      ],
+      "matches": [
+        "<all_urls>"
+      ]
+    }
+  ],
+  "browser_action": {
+    "default_icon": "static/icons/trive-128.png",
+    "default_title": "Trive it!",
+    "default_popup": "popup.html"
+  },
+  "web_accessible_resources": [
+    "static/icons/Jcrop.gif",
+    "static/icons/pixel.png"
+  ],
+  "permissions": [
+    "bookmarks",
+    "storage",
+    "activeTab",
+    "http://*/",
+    "https://*/",
+    "tabCapture",
+    "unlimitedStorage",
+    "clipboardWrite",
+    "downloads",
+    "contextMenus"
+  ],
+  "content_security_policy": "script-src 'self' 'unsafe-eval'; object-src 'self'"
+}
