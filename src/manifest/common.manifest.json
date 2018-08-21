@@ -1,6 +1,5 @@
 {
   "name": "Trive",
-  "description": "Trive companion webextension",
   "homepage_url": "https://verify.trive.news",
   "manifest_version": 2,
   "icons": {

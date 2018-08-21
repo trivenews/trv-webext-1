@@ -167,6 +167,11 @@ function generateByBrowser() {
   const version = {
     version: require('../package.json').version
   }
+
+  // Auto update description based on package.json
+  const description = {
+    description: require('../package.json').description
+  }
   const files = fs.readdirSync(paths.appBuild)
     .map(name => ({
       name,
@@ -187,7 +192,7 @@ function generateByBrowser() {
       // manifest
       fs.writeJson(
         path.join(dest, 'manifest.json'),
-        Object.assign({}, commonManifest, browserManifest, version), {
+        Object.assign({}, commonManifest, browserManifest, version, description), {
           spaces: 2
         },
       ),

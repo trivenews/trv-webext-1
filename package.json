@@ -1,7 +1,7 @@
 {
   "name": "trv-webext",
   "version": "0.0.1",
-  "description": "Trive companion webextension",
+  "description": "Companion browser extension for Trive",
   "author": "devkabiir <dev@kabiir.me>",
   "license": "MIT",
   "homepage": "https://github.com/devkabiir/trv-webext",
