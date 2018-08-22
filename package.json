@@ -47,7 +47,7 @@
     "reactstrap": "6.3.1",
     "tabler": "tabler/tabler#v0.0.32",
     "web-ext-types": "crimx/web-ext-types",
-    "webextension-polyfill": "0.2.1"
+    "webextension-polyfill": "0.3.1"
   },
   "devDependencies": {
     "@commitlint/cli": "6.2.0",
