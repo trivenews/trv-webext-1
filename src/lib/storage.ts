@@ -4,8 +4,10 @@
  * the first key is considered as obj name and thus never utilized
  * @param {!Object} obj to __mutate__
  * @param {!Object} changes to make
+ *
+ * @internal
  */
-const updateObj = (keys, obj, changes) => {
+export const updateObj = (keys, obj, changes) => {
   // todo figure out a better way without mutating function parameters.
   //       workaround could be to deepClone the `obj`, make changes, return the clone.
   if (keys.length > 1) {
@@ -42,8 +44,10 @@ const getStorageObj = async name => (await browser.storage.local.get())[name] ||
  * @param {String} path to the object to update separated by `.`
  *
  * @param {String|Object} changes object containing only changed properties
+ *
+ * @internal
  */
-const updateStorageObj = async (path, changes) => {
+export const updateStorageObj = async (path, changes) => {
   const keys = path.split('.');
   const obj = await getStorageObj(keys[0]);
 
