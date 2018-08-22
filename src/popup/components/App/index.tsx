@@ -1,6 +1,6 @@
 import * as React from 'react';
 // import './style/index.scss';
-const logo = require('../../../assets/trive-32.png');
+const logo = browser.runtime.getURL('static/icons/trive-32.png');
 class App extends React.Component<{}, any> {
   render() {
     return (

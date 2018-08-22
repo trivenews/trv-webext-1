@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { Button } from 'reactstrap';
-// TODO: static link assets
-const logo = require('../../../assets/trive-32.png');
+
+const logo = browser.runtime.getURL('static/icons/trive-32.png');
 class Header extends React.Component<{}, any> {
   render() {
     const notifAvatarStyle = {
