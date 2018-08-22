@@ -22,6 +22,7 @@ describe('storage.js - updateObj', () => {
 
     expect(testObj.secondKey).toBe('secondChanged');
 
+    // @ts-ignore
     expect(testObj.thirdKey).toBe('thirdKey');
   });
 
@@ -72,6 +73,7 @@ describe('storage.js - updateObj', () => {
     expect(testObj.secondKey.nestedFirstKey).toBe('nestedFirstValue');
     expect(testObj.secondKey.nestedSecondKey.nestedFirstProperty).toBe('nestedFirstValue');
     expect(testObj.secondKey.nestedSecondKey.nestedSecondProperty).toBe('nestedSecondValue');
+    // @ts-ignore
     expect(testObj.secondKey.nestedSecondKey.nestedThirdProperty).toBe('nestedThirdValue');
     expect(testObj.thirdKey).toBe('thirdKey');
   });
