@@ -13,16 +13,16 @@ describe('storage.js - updateObj', () => {
 
     updateObj([], testObj, changes);
 
-    expect(testObj.secondKey).to.be.equal('secondChanged');
+    expect(testObj.secondKey).toBe('secondChanged');
 
     updateObj([], testObj, {
       thirdKey: 'thirdKey',
     });
-    expect(testObj.firstKey).to.be.equal('firstValue');
+    expect(testObj.firstKey).toBe('firstValue');
 
-    expect(testObj.secondKey).to.be.equal('secondChanged');
+    expect(testObj.secondKey).toBe('secondChanged');
 
-    expect(testObj.thirdKey).to.be.equal('thirdKey');
+    expect(testObj.thirdKey).toBe('thirdKey');
   });
 
   it('can update existing properties of nested objects', () => {
@@ -43,11 +43,11 @@ describe('storage.js - updateObj', () => {
 
     updateObj('testObj.secondKey.nestedSecondKey'.split('.'), testObj, changes);
 
-    expect(testObj.firstKey).to.be.equal('firstValue');
-    expect(testObj.secondKey.nestedFirstKey).to.be.equal('nestedFirstValue');
-    expect(testObj.secondKey.nestedSecondKey.nestedFirstProperty).to.be.equal('nestedFirstValue');
-    expect(testObj.secondKey.nestedSecondKey.nestedSecondProperty).to.be.equal('nestedSecondChanged');
-    expect(testObj.thirdKey).to.be.equal('thirdKey');
+    expect(testObj.firstKey).toBe('firstValue');
+    expect(testObj.secondKey.nestedFirstKey).toBe('nestedFirstValue');
+    expect(testObj.secondKey.nestedSecondKey.nestedFirstProperty).toBe('nestedFirstValue');
+    expect(testObj.secondKey.nestedSecondKey.nestedSecondProperty).toBe('nestedSecondChanged');
+    expect(testObj.thirdKey).toBe('thirdKey');
   });
 
   it('can add new properties in nested objects', () => {
@@ -68,13 +68,14 @@ describe('storage.js - updateObj', () => {
 
     updateObj('testObj.secondKey.nestedSecondKey'.split('.'), testObj, changes);
 
-    expect(testObj.firstKey).to.be.equal('firstValue');
-    expect(testObj.secondKey.nestedFirstKey).to.be.equal('nestedFirstValue');
-    expect(testObj.secondKey.nestedSecondKey.nestedFirstProperty).to.be.equal('nestedFirstValue');
-    expect(testObj.secondKey.nestedSecondKey.nestedSecondProperty).to.be.equal('nestedSecondValue');
-    expect(testObj.secondKey.nestedSecondKey.nestedThirdProperty).to.be.equal('nestedThirdValue');
-    expect(testObj.thirdKey).to.be.equal('thirdKey');
+    expect(testObj.firstKey).toBe('firstValue');
+    expect(testObj.secondKey.nestedFirstKey).toBe('nestedFirstValue');
+    expect(testObj.secondKey.nestedSecondKey.nestedFirstProperty).toBe('nestedFirstValue');
+    expect(testObj.secondKey.nestedSecondKey.nestedSecondProperty).toBe('nestedSecondValue');
+    expect(testObj.secondKey.nestedSecondKey.nestedThirdProperty).toBe('nestedThirdValue');
+    expect(testObj.thirdKey).toBe('thirdKey');
   });
+});
 
 describe('storage.js - updateStorageObj', async () => {
   beforeEach(() => {
@@ -92,10 +93,8 @@ describe('storage.js - updateStorageObj', async () => {
       'https://www.theAnswerToLife.IsNot': 55,
     });
 
-    const {
-      scoreCache,
-    } = await browser.storage.local.get();
-    expect(scoreCache).to.be.equal({
+    const { scoreCache } = await browser.storage.local.get();
+    expect(scoreCache).toEqual({
       'https://www.theAnswerToLife.Is': 42,
       'https://www.theAnswerToLife.IsNot': 55,
     });
@@ -109,10 +108,8 @@ describe('storage.js - updateStorageObj', async () => {
       cacheScores: true,
     });
 
-    const {
-      config,
-    } = await browser.storage.local.get();
-    expect(config.content).to.be.equal({
+    const { config } = await browser.storage.local.get();
+    expect(config.content).toEqual({
       showScoreOnLinks: true,
       cacheScores: true,
     });
