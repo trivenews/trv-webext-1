@@ -3793,9 +3793,9 @@ gaze@^1.0.0:
   dependencies:
     globule "^1.0.0"
 
-generate-json-webpack-plugin@0.2.2:
-  version "0.2.2"
-  resolved "https://registry.yarnpkg.com/generate-json-webpack-plugin/-/generate-json-webpack-plugin-0.2.2.tgz#fdb42821044b5b3fc3f0240ac26c25f7b3795db0"
+generate-json-webpack-plugin@0.3.1:
+  version "0.3.1"
+  resolved "https://registry.yarnpkg.com/generate-json-webpack-plugin/-/generate-json-webpack-plugin-0.3.1.tgz#b5ebb383ba552d8be663ce177ed134f480735144"
 
 get-caller-file@^1.0.1:
   version "1.0.2"
