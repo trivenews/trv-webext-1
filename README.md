@@ -24,7 +24,7 @@
 - Run `yarn build` to build.
   - Outputs for all browsers in `build\{browser}` directory, respectively.
   - Run `yarn release` before building to get the updated version number.
-- [WIP] `yarn devbuild` for building without compression, with file watching.
+- For dev builds use `yarn devbuild` for building without compression, with file watching.
   - Defaults to `chrome`. For other browser, e.g. Firefox, run `yarn devbuild --firefox`.
   - Corresponding manifest file must exist in `manifest` directory, e.g. `opera.manifest.json`
 - Append `--debug` to enable `process.env.DEBUG_MODE`.
