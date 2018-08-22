@@ -1,18 +1,11 @@
 import * as browserMock from 'webextensions-api-fake';
-import * as browserStub from 'sinon-chrome';
 
-// import reload from 'require-reload';
 import storage from '@/lib/storage';
-
-/**
- * @type {browserStub}
- */
-let browser = browserMock();
 
 describe('storage.js - storage.scoreCache', () => {
   beforeEach(() => {
     // New browser for each test
-    browser = browserMock();
+    browser = browserMock.default();
     // @ts-ignore
     global.browser = browser;
   });
@@ -56,7 +49,7 @@ describe('storage.js - storage.scoreCache', () => {
 describe('storage.js - storage.config.settings', () => {
   beforeEach(() => {
     // New browser for each test
-    browser = browserMock();
+    browser = browserMock.default();
     // @ts-ignore
     global.browser = browser;
   });
@@ -98,7 +91,7 @@ describe('storage.js - storage.config.settings', () => {
 describe('storage.js - storage.config.popup', () => {
   beforeEach(() => {
     // New browser for each test
-    browser = browserMock();
+    browser = browserMock.default();
     // @ts-ignore
     global.browser = browser;
   });
@@ -140,7 +133,7 @@ describe('storage.js - storage.config.popup', () => {
 describe('storage.js - storage.config.content', () => {
   beforeEach(() => {
     // New browser for each test
-    browser = browserMock();
+    browser = browserMock.default();
     // @ts-ignore
     global.browser = browser;
   });
@@ -183,7 +176,7 @@ describe('storage.js - storage.config.content', () => {
 describe('storage.js - storage.config.background', () => {
   beforeEach(() => {
     // New browser for each test
-    browser = browserMock();
+    browser = browserMock.default();
     // @ts-ignore
     global.browser = browser;
   });

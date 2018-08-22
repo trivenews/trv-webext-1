@@ -1,10 +1,5 @@
-import * as browser from 'sinon-chrome';
 import updateIcon from '@/lib/updateIcon';
-import {
-  themeColors,
-  grayIcon,
-  defaultIcon,
-} from '@/lib/common';
+import { themeColors, grayIcon, defaultIcon } from '@/lib/common';
 
 const tabId = 1;
 

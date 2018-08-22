@@ -1,34 +1,7 @@
-import * as browserFake from 'webextensions-api-fake';
-import * as browserReal from 'sinon-chrome';
+import { updateObj, updateStorageObj } from '@/lib/storage';
+import * as browserMock from 'webextensions-api-fake';
 
-// import reload from 'require-reload';
-import storage from '@/lib/storage';
-
-/**
- * @type {browserReal}
- */
-const browser = browserFake();
-const constants = 1;
-describe('moduleName', () => {
-  beforeAll(() => {
-    // @ts-ignore
-    global.browser = browser;
-  });
-  it('does something', () => {
-    browser.tabs.create({
-      url: 'https://theAnswerToLife.Is',
-    });
-    browser.tabs.create({
-      url: 'https://theAnswerToLife.Is',
-    });
-
-    expect(browser.tabs.create.calledTwice).toBe(true);
-
-    expect(constants).toBe(1);
-  });
-});
-
-/* describe('storage.js - updateObj', () => {
+describe('storage.js - updateObj', () => {
   it('can update properties of flat objects', () => {
     const testObj = {
       firstKey: 'firstValue',
@@ -102,12 +75,11 @@ describe('moduleName', () => {
     expect(testObj.secondKey.nestedSecondKey.nestedThirdProperty).to.be.equal('nestedThirdValue');
     expect(testObj.thirdKey).to.be.equal('thirdKey');
   });
-}); */
 
-/* describe('storage.js - updateStorageObj', async () => {
+describe('storage.js - updateStorageObj', async () => {
   beforeEach(() => {
     // New browser for each test
-    browser = browserFake();
+    browser = browserMock.default();
     // @ts-ignore
     global.browser = browser;
   });
@@ -145,4 +117,4 @@ describe('moduleName', () => {
       cacheScores: true,
     });
   });
-}); */
+});
