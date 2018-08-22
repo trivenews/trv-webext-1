@@ -5,15 +5,13 @@ process.env.BABEL_ENV = 'production'
 process.env.NODE_ENV = 'production'
 process.env.PUBLIC_URL = './'
 
-// Browser targets
-const browsers = ['chrome'];
-
 const argv = require('minimist')(process.argv.slice(2))
 if (argv.debug) {
   process.env.DEBUG_MODE = true
 }
 
-// TODO: add file watchers and possibly live reload
+// Browser targets
+const browsers = ['chrome'];
 if (argv.devbuild) {
   process.env.DEV_BUILD = true;
 } else {
@@ -29,8 +27,6 @@ process.on('unhandledRejection', err => {
   throw err
 })
 
-
-
 // Ensure environment variables are read.
 require('../config/env')
 
@@ -39,6 +35,9 @@ const chalk = require('chalk')
 const fs = require('fs-extra')
 const webpack = require('webpack')
 const config = require('../config/webpack.config.prod')
+const configDevBuild = require('../config/webpack.config.devbuild');
+const chokidar = require('chokidar');
+
 const paths = require('../config/paths')
 // const checkRequiredFiles = require('react-dev-utils/checkRequiredFiles')
 const formatWebpackMessages = require('react-dev-utils/formatWebpackMessages')
@@ -67,57 +66,81 @@ const printFileSizesAfterBuild = FileSizeReporter.printFileSizesAfterBuild
 const WARN_AFTER_BUNDLE_GZIP_SIZE = 512 * 1024
 const WARN_AFTER_CHUNK_GZIP_SIZE = 1024 * 1024
 
-// First, read the current file sizes in build directory.
-// This lets us display how much they changed later.
-measureFileSizesBeforeBuild(paths.appBuild)
-  .then(previousFileSizes => {
+const browserDevBuild = ['chrome', 'opera', 'firefox', 'edge'].find(name => argv[name] === true) || 'chrome';
+
+const appBuildPath = path.join(paths.appBuild, browserDevBuild);
+
+if (argv.devbuild) {
+  // First, read the current file sizes in build directory.
+  // This lets us display how much they changed later.
+  measureFileSizesBeforeBuild(appBuildPath).then(previousFileSizes => {
     // Remove all content but keep the directory so that
     // if you're in it, you don't end up in Trash
-    fs.emptyDirSync(paths.appBuild)
-    // Start the webpack build
-    return build(previousFileSizes)
-  })
-  .then(
-    ({
-      stats,
-      previousFileSizes,
-      warnings
-    }) => {
-      if (warnings.length) {
-        console.log(chalk.yellow('Compiled with warnings.\n'))
-        console.log(warnings.join('\n\n'))
-        console.log(
-          '\nSearch for the ' +
-          chalk.underline(chalk.yellow('keywords')) +
-          ' to learn more about each warning.'
-        )
-        console.log(
-          'To ignore, add ' +
-          chalk.cyan('// eslint-disable-next-line') +
-          ' to the line before.\n'
-        )
-      } else {
-        console.log(chalk.green('Compiled successfully.\n'))
-      }
+    fs.emptyDirSync(appBuildPath);
 
-      console.log('File sizes after gzip:\n')
-      printFileSizesAfterBuild(
+    Promise.all([copyAssets(), generateManifest()]).then(() => {
+      watchAssets();
+      watchManifest();
+    });
+
+    // Start the webpack build
+    return watchAndBuild(previousFileSizes);
+  });
+} else {
+  // First, read the current file sizes in build directory.
+  // This lets us display how much they changed later.
+  measureFileSizesBeforeBuild(paths.appBuild)
+    .then(previousFileSizes => {
+      // Remove all content but keep the directory so that
+      // if you're in it, you don't end up in Trash
+      fs.emptyDirSync(paths.appBuild)
+      // Start the webpack build
+      return build(previousFileSizes)
+    })
+    .then(
+      ({
         stats,
         previousFileSizes,
-        // only show the basename
-        '[browser]/', // paths.appBuild,
-        WARN_AFTER_BUNDLE_GZIP_SIZE,
-        WARN_AFTER_CHUNK_GZIP_SIZE
-      )
-      console.log()
-    },
-    err => {
-      console.log(chalk.red('Failed to compile.\n'))
-      printBuildError(err)
-      process.exit(1)
-    }
-  )
-  .then(generateByBrowser)
+        warnings
+      }) => {
+        if (warnings.length) {
+          console.log(chalk.yellow('Compiled with warnings.\n'))
+          console.log(warnings.join('\n\n'))
+          console.log(
+            '\nSearch for the ' +
+            chalk.underline(chalk.yellow('keywords')) +
+            ' to learn more about each warning.'
+          )
+          console.log(
+            'To ignore, add ' +
+            chalk.cyan('// eslint-disable-next-line') +
+            ' to the line before.\n'
+          )
+        } else {
+          console.log(chalk.green('Compiled successfully.\n'))
+        }
+
+        console.log('File sizes after gzip:\n')
+        printFileSizesAfterBuild(
+          stats,
+          previousFileSizes,
+          // only show the basename
+          '[browser]/', // paths.appBuild,
+          WARN_AFTER_BUNDLE_GZIP_SIZE,
+          WARN_AFTER_CHUNK_GZIP_SIZE
+        )
+        console.log()
+      },
+      err => {
+        console.log(chalk.red('Failed to compile.\n'))
+        printBuildError(err)
+        process.exit(1)
+      }
+    )
+    .then(generateByBrowser)
+
+}
+
 
 // Create the production build and print the deployment instructions.
 function build(previousFileSizes) {
@@ -212,6 +235,108 @@ function generateByBrowser() {
     fs.remove(file.path)
   )))
 }
+
+// Create the production build and print the deployment instructions.
+function watchAndBuild(previousFileSizes) {
+  console.log(`Creating an development build for ${browserDevBuild}...`);
+
+  let compiler = webpack(configDevBuild);
+
+  compiler.watch({
+      ignored: /node_modules/,
+    },
+    (err, stats) => {
+      if (err) {
+        return printBuildError(err);
+      }
+      const messages = formatWebpackMessages(stats.toJson({}, true));
+      if (messages.errors.length) {
+        // Only keep the first error. Others are often indicative
+        // of the same problem, but confuse the reader with noise.
+        if (messages.errors.length > 1) {
+          messages.errors.length = 1;
+        }
+        return printBuildError(messages.errors.join('\n\n'));
+      }
+
+      if (messages.warnings.length) {
+        console.log(chalk.yellow('Compiled with warnings.\n'));
+        console.log(messages.warnings.join('\n\n'));
+        console.log(
+          '\nSearch for the ' + chalk.underline(chalk.yellow('keywords')) + ' to learn more about each warning.',
+        );
+        console.log('To ignore, add ' + chalk.cyan('// eslint-disable-next-line') + ' to the line before.\n');
+      } else {
+        console.log(chalk.green('Compiled successfully.\n'));
+      }
+
+      console.log('File sizes after gzip:\n');
+      printFileSizesAfterBuild(
+        stats,
+        previousFileSizes,
+        // only show the basename
+        browserDevBuild + '/', // paths.appBuild,
+        WARN_AFTER_BUNDLE_GZIP_SIZE,
+        WARN_AFTER_CHUNK_GZIP_SIZE,
+      );
+      console.log();
+    },
+  );
+}
+
+function watchAssets() {
+  chokidar
+
+    .watch(path.join(__dirname, '../public'), {
+      ignoreInitial: true,
+    })
+    .on('all', copyAssets);
+}
+
+function copyAssets() {
+  return fs
+    .copy(paths.appPublic, appBuildPath, {
+      dereference: true,
+      // ignore files or dirs start with "."
+      filter: file => !/[\\\/]+\./.test(file),
+    })
+    .then(() => {
+      console.log(chalk.green('Assets copied\n'));
+    });
+}
+
+function watchManifest() {
+  chokidar
+
+    .watch(path.join(__dirname, '../src/manifest'), {
+      ignoreInitial: true,
+    })
+    .on('all', generateManifest);
+}
+
+function generateManifest() {
+  return Promise.all([
+      fs.readJson(require.resolve('../src/manifest/common.manifest.json')),
+      fs.readJson(require.resolve(`../src/manifest/${browserDevBuild}.manifest.json`)),
+    ])
+    .then(([commonManifest, browserManifest]) => {
+      const version = require('../package.json').version;
+
+      fs.writeJson(
+        path.join(appBuildPath, 'manifest.json'),
+        Object.assign({}, commonManifest, browserManifest, {
+          version,
+        }), {
+          spaces: 2,
+        },
+      );
+    })
+    .then(() => {
+      console.log(chalk.green('Manifest generated\n'));
+    });
+}
+
+
 
 /* function writeLocales(localesPath, localesJSON) {
   const locales = Object.keys(localesJSON)
