@@ -44,7 +44,7 @@
     "cropperjs": "1.4.1",
     "react": "16.4.2",
     "react-dom": "16.4.2",
-    "reactstrap": "6.3.1",
+    "reactstrap": "6.4.0",
     "tabler": "tabler/tabler#v0.0.32",
     "web-ext-types": "crimx/web-ext-types",
     "webextension-polyfill": "0.3.1"
