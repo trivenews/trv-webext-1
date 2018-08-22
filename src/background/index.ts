@@ -34,14 +34,9 @@ import screenshot from './screenshot';
 // // browser.contextMenus.onClicked.addListener(contextMenu.handler);
 
 browser.runtime.onMessage.addListener(message => {
-  if (message.type === 'GREETING') {
-    return new Promise(resolve => {
-      setTimeout(() => resolve('Hi! Got your message a second ago. 😄'), 1000);
-      console.log('Backgroun got the message');
-    });
-  }
+  const backgroundMessage: BackgroundMessage = message;
 
-  switch ((message.type as string).toLowerCase()) {
+  switch (backgroundMessage.action) {
     case 'capture':
       screenshot(message.data);
       break;
@@ -50,3 +45,10 @@ browser.runtime.onMessage.addListener(message => {
       break;
   }
 });
+
+interface BackgroundMessage {
+  action: BackgroundMessageAction;
+
+  data?: any;
+}
+type BackgroundMessageAction = 'capture';
