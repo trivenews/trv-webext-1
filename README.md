@@ -1,6 +1,6 @@
 # Trive companion Web-Extension
 
-[![Build Status](https://travis-ci.org/devkabiir/trv-webext.svg)](https://travis-ci.org/devkabiir/trv-webext)
+[![Build Status](https://travis-ci.com/devkabiir/trv-webext.svg?branch=master)](https://travis-ci.com/devkabiir/trv-webext)
 [![Dependencies](https://img.shields.io/david/devkabiir/trv-webext.svg)](https://david-dm.org/devkabiir/trv-webext)
 [![DevDependencies](https://img.shields.io/david/dev/devkabiir/trv-webext.svg)](https://david-dm.org/devkabiir/trv-webext#info=devDependencies)
 
