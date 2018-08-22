@@ -13,7 +13,7 @@
 1. Install deps `yarn install`
 2. Run `yarn start` to work on the pop-up page
 
-   - The `popup` page laods by default. If you need to change to other entry, `options` page for example, run `yarn start --main=options`.
+   - The `popup` page loads by default. If you need to change to other entry, `options` page for example, run `yarn start --main=options`.
    - The `background` script is always loaded (if exist).
    - Edit `config/fake-env/fake-ajax` to fake ajax calls.
 
