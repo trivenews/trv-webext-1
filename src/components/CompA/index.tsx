@@ -3,14 +3,12 @@
  */
 import * as React from 'react';
 import './style/index.scss';
-import { CLIENT_RENEG_LIMIT } from 'tls';
 
 class Comp extends React.Component<{}, any> {
   private greet = async () => {
     const response = await browser.runtime.sendMessage({ type: 'GREETING' });
     alert(`Background 😄  Script: "${response}"`);
     console.log(response);
-
   }
 
   render() {

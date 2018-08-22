@@ -18,12 +18,12 @@ export const updateObj = (keys, obj, changes) => {
     const pointer = traverse.reduce((accumulator, currentValue) => {
       if (accumulator[currentValue] === undefined) accumulator[currentValue] = {};
       return accumulator[currentValue];
-    },                              obj);
-    Object.keys(changes).forEach((property) => {
+    }, obj);
+    Object.keys(changes).forEach(property => {
       pointer[property] = changes[property];
     });
   } else {
-    Object.keys(changes).forEach((property) => {
+    Object.keys(changes).forEach(property => {
       /* eslint-disable no-param-reassign */
       obj[property] = changes[property];
       /* eslint-disable no-param-reassign */
@@ -67,12 +67,10 @@ const scoreCache = {
    * @param {!Number}score
    * @example scoreCache.set('https://theAnswerToLife.Is', 42);
    */
-  set: async (
-    url,
-    score,
-  ) => updateStorageObj('scoreCache', {
-    [url]: score,
-  }),
+  set: async (url, score) =>
+    updateStorageObj('scoreCache', {
+      [url]: score,
+    }),
   /**
    * @param {!String} url
    * @returns {Promise<Number|Object>} score if exists, cached at timestamp if under research,
@@ -80,7 +78,7 @@ const scoreCache = {
    * @example scoreCache.get('https://theAnswerToLife.Is')
    * will return 42;
    */
-  get: async (url) => {
+  get: async url => {
     const scoreCaches = await getStorageObj('scoreCache');
     if (!url) return scoreCaches;
     return scoreCaches[url] || NaN;
@@ -119,9 +117,10 @@ const config = {
      * @param {!String} key
      * @param {String|Object} value
      */
-    set: async (key, value) => updateStorageObj('config.settings', {
-      [key]: value,
-    }),
+    set: async (key, value) =>
+      updateStorageObj('config.settings', {
+        [key]: value,
+      }),
     /**
      * @param {!String} key to access
      * @returns {Promise<any|undefined>} value if found, if `key` not specified returns the whole settings object,
@@ -134,9 +133,10 @@ const config = {
      * @param {!String} key
      * @param {String|Object} value
      */
-    set: async (key, value) => updateStorageObj('config.popup', {
-      [key]: value,
-    }),
+    set: async (key, value) =>
+      updateStorageObj('config.popup', {
+        [key]: value,
+      }),
     /**
      * @param {!String} key to access
      * @returns {Promise<any|undefined>} value if found, if `key` not specified returns the whole popup object,
@@ -149,9 +149,10 @@ const config = {
      * @param {!String} key
      * @param {String|Object} value
      */
-    set: async (key, value) => updateStorageObj('config.content', {
-      [key]: value,
-    }),
+    set: async (key, value) =>
+      updateStorageObj('config.content', {
+        [key]: value,
+      }),
     /**
      * @param {!String} key to access
      * @returns {Promise<any|undefined>} value if found, if `key` not specified returns the whole content object,
@@ -164,9 +165,10 @@ const config = {
      * @param {!String} key
      * @param {String|Object} value
      */
-    set: async (key, value) => updateStorageObj('config.background', {
-      [key]: value,
-    }),
+    set: async (key, value) =>
+      updateStorageObj('config.background', {
+        [key]: value,
+      }),
     /**
      * @param {!String} key to access
      * @returns {Promise<any|undefined>} value if found, if `key` not specified returns the whole background object,

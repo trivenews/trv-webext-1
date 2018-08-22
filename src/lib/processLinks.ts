@@ -2,7 +2,13 @@
  * @param {HTMLAnchorElement} e
  */
 function isValidLink(e) {
-  return e.href.startsWith('https://') && e.innerHTML.trim() && e.innerText.trim() && !e.getAttribute('href').startsWith('#') && !e.getAttribute('href').startsWith('/');
+  return (
+    e.href.startsWith('https://') &&
+    e.innerHTML.trim() &&
+    e.innerText.trim() &&
+    !e.getAttribute('href').startsWith('#') &&
+    !e.getAttribute('href').startsWith('/')
+  );
 }
 /**
  *
@@ -26,7 +32,6 @@ export default async function processLinks(callback) {
 
   const anchorTags = document.getElementsByTagName('a');
 
-  const uniqueLinks = [...anchorTags.values()]
-    .filter((e, i, arr) => isValidLink(e) && isUniqueLink(e, i, arr));
+  const uniqueLinks = [...anchorTags.values()].filter((e, i, arr) => isValidLink(e) && isUniqueLink(e, i, arr));
   return callback(uniqueLinks);
 }

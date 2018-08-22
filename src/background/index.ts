@@ -33,13 +33,12 @@ import screenshot from './screenshot';
 
 // // browser.contextMenus.onClicked.addListener(contextMenu.handler);
 
-browser.runtime.onMessage.addListener((message) => {
+browser.runtime.onMessage.addListener(message => {
   if (message.type === 'GREETING') {
-    return new Promise((resolve) => {
+    return new Promise(resolve => {
       setTimeout(() => resolve('Hi! Got your message a second ago. 😄'), 1000);
       console.log('Backgroun got the message');
-    },
-    );
+    });
   }
 
   switch ((message.type as string).toLowerCase()) {

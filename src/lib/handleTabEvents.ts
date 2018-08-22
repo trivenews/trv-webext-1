@@ -1,9 +1,6 @@
 import updateIcon from './updateIcon';
 import getTrives from './getTrives';
-import {
-  getScoreColor,
-  getScoreTitle,
-} from './common';
+import { getScoreColor, getScoreTitle } from './common';
 
 /**
  *
@@ -11,10 +8,12 @@ import {
  */
 export async function onActivated(activeInfo) {
   const tab = await browser.tabs.get(activeInfo.tabId);
-  const trive = await getTrives([{
-    link: '',
-    fullLink: tab.url,
-  }]);
+  const trive = await getTrives([
+    {
+      link: '',
+      fullLink: tab.url,
+    },
+  ]);
 
   const triveScore = trive[0].score;
   await updateIcon({
@@ -39,10 +38,12 @@ export async function onUpdated(tabId, changeInfo, tab) {
       disable: true,
     });
   } else {
-    const trive = await getTrives([{
-      fullLink: tab.url,
-      link: '',
-    }]);
+    const trive = await getTrives([
+      {
+        fullLink: tab.url,
+        link: '',
+      },
+    ]);
     const triveScore = trive[0].score;
     await updateIcon({
       tabId,

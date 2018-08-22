@@ -16,28 +16,32 @@ const fakeImage = (): HTMLImageElement => {
   document.getElementsByTagName('body')[0].appendChild(container);
   container.appendChild(image);
 
-  image.onerror = (e) => {
+  image.onerror = e => {
     console.log(e);
   };
   image.onload = () => {
-
     console.log('fake-image added');
   };
   return image;
 };
 
-const cropper = new cropperjs(
-  fakeImage(),
-  {
-    movable: true, cropBoxMovable: true, zoomable: false, zoomOnTouch: false, zoomOnWheel: false,
-    ready(event) {
-      console.log(event);
-    },
-    background: false,
-    cropBoxResizable: true,
-    guides: true,
-    highlight: false, modal: false, minCropBoxHeight: 300, minCropBoxWidth: 300,
-  });
+const cropper = new cropperjs(fakeImage(), {
+  movable: true,
+  cropBoxMovable: true,
+  zoomable: false,
+  zoomOnTouch: false,
+  zoomOnWheel: false,
+  ready(event) {
+    console.log(event);
+  },
+  background: false,
+  cropBoxResizable: true,
+  guides: true,
+  highlight: false,
+  modal: false,
+  minCropBoxHeight: 300,
+  minCropBoxWidth: 300,
+});
 
 // Delete the whole folder if you don't want this script be generated
 console.log('content script loaded');

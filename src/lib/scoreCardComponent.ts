@@ -1,10 +1,8 @@
-import {
-  themeColors,
-} from './common';
+import { themeColors } from './common';
 
 export default function scoreCardComponent(score) {
   const scoreInt = Number.parseInt(score, 10);
-  const title = (Number.isNaN(scoreInt) ? (score === '!' ? 'Trive this!' : 'Under Research') : 'Trive Score');
+  const title = Number.isNaN(scoreInt) ? (score === '!' ? 'Trive this!' : 'Under Research') : 'Trive Score';
   let background = themeColors.neutral;
   const textColor = 'black';
 
@@ -21,5 +19,13 @@ export default function scoreCardComponent(score) {
     background = themeColors.success;
   }
 
-  return `<div  title="${title}" style="background-color:${background};color:${textColor};width: 1.6vw;text-align:center;display:inline-block;"><span>${score}</span></div> `;
+  return `<div  title="${title}"
+  style="
+  background-color:${background};
+  color:${textColor};
+  width: 1.6vw;
+  text-align:center;
+  display:inline-block;">
+  <span>${score}</span>
+  </div> `;
 }

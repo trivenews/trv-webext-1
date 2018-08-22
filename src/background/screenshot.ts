@@ -10,7 +10,6 @@ import cropperjs from 'cropperjs';
  * @see http://stackoverflow.com/questions/16245767/ddg#16245768
  */
 const b64toBlob = (b64Data: string, contentType: string = 'image/jpeg', sliceSize: number = 512): Blob => {
-
   const byteCharacters = atob(b64Data);
   const byteArrays: Uint8Array[] = [];
 
@@ -55,13 +54,8 @@ const saveFile = async (blob: Blob) => {
 
 function cropImage(image) {
   const imageEl = new image(image);
-  new cropperjs(imageEl, {
-
-  });
-
+  new cropperjs(imageEl, {});
 }
-const screenshot = (message) => {
-
-};
+const screenshot = message => {};
 
 export default screenshot;

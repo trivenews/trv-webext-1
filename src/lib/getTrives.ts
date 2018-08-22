@@ -6,11 +6,11 @@ import storage from './storage';
  * @param {[{link:String,fullLink:String}]} links
  * @returns {Promise<[{link:String,score:String}]|any>} empty array if nothing found, cached scores otherwise
  */
-const checkLocalCache = async (links) => {
+const checkLocalCache = async links => {
   const results = [{}];
   const scoreCaches = await storage.scoreCache.get(null);
 
-  links.forEach((elm) => {
+  links.forEach(elm => {
     if (Object.prototype.hasOwnProperty.call(scoreCaches, elm.fullLink)) {
       results.push({
         link: elm.link,
@@ -27,7 +27,7 @@ const checkLocalCache = async (links) => {
  * @param {[{link:String,fullLink:String}]} links
  * @returns {Promise<[{link:String,score:String}]|[]>} empty array if nothing found, cached scores otherwise
  */
-const checkServer = async (links) => {
+const checkServer = async links => {
   const results = [{}];
 
   try {
@@ -43,11 +43,9 @@ const checkServer = async (links) => {
     /**
      *  @var {[{weblink:String, avg_score:String}]} scores
      * */
-    const {
-      scores = [],
-    } = await res.json();
+    const { scores = [] } = await res.json();
 
-    scores.forEach(async (elm) => {
+    scores.forEach(async elm => {
       results.push({
         link: elm.weblink,
         score: elm.avg_score,
@@ -71,7 +69,7 @@ const checkServer = async (links) => {
 /**
  * @param {[{link:String,score:String}]} scores
  * */
-const updateCache = async (scores) => { };
+const updateCache = async scores => {};
 
 /**
  *
@@ -85,7 +83,7 @@ const updateCache = async (scores) => { };
  *  or array with single object with empty values if no links found in the database or failure.
  */
 
-const getTrives = async (links) => {
+const getTrives = async links => {
   if (links.length) {
     const cachePromise = checkLocalCache(links);
     const serverPromise = checkServer(links);
@@ -104,9 +102,11 @@ const getTrives = async (links) => {
     if (isCached) return cache;
   };
 
-  return [{
-    link: '',
-    score: '',
-  }];
+  return [
+    {
+      link: '',
+      score: '',
+    },
+  ];
 };
 export default getTrives;

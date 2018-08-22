@@ -3,9 +3,7 @@ import { Button, CustomInput, Form, FormGroup, Label, Input } from 'reactstrap';
 
 class SubmitArticle extends React.Component<{}, any> {
   render() {
-
     return (
-
       <Form>
         <FormGroup>
           <Label for='exampleCustomFileBrowser'>Select Sreenshot</Label>
@@ -13,8 +11,7 @@ class SubmitArticle extends React.Component<{}, any> {
         </FormGroup>
         <FormGroup>
           <Label for='exampleText'>What's Wrong on the Internet? [Describe Content to be Trived]</Label>
-          <Input type='textarea' minLength='30'
-            rows='5' name='text' id='exampleText' />
+          <Input type='textarea' minLength='30' rows='5' name='text' id='exampleText' />
         </FormGroup>
         <div className='form-inline'>
           <FormGroup className='mr-2'>
@@ -38,12 +35,15 @@ class SubmitArticle extends React.Component<{}, any> {
             </Input>
           </FormGroup>
           <FormGroup className='mr-2'>
-            <Label for='exampleEmail' className=''>Your Email</Label>
+            <Label for='exampleEmail' className=''>
+              Your Email
+            </Label>
             <Input type='email' name='email' id='exampleEmail' placeholder='something@idk.cool' />
           </FormGroup>
-          <Button className='mt-3' color='primary'>Trive this!</Button>
+          <Button className='mt-3' color='primary'>
+            Trive this!
+          </Button>
         </div>
-
       </Form>
     );
   }

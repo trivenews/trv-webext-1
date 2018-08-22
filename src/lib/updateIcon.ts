@@ -1,8 +1,4 @@
-import {
-  themeColors,
-  grayIcon,
-  defaultIcon,
-} from './common';
+import { themeColors, grayIcon, defaultIcon } from './common';
 
 /**
  * Updates extension icon and badge for a given `tabId`

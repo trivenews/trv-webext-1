@@ -69,16 +69,16 @@ export function getScoreColor(score: string): string {
   let color;
 
   switch (true) {
-    case (scoreInt < -50 && scoreInt > -101):
+    case scoreInt < -50 && scoreInt > -101:
       color = themeColors.error;
       break;
-    case (scoreInt <= 0 && scoreInt >= -50):
+    case scoreInt <= 0 && scoreInt >= -50:
       color = themeColors.warning;
       break;
-    case (scoreInt > 0 && scoreInt <= 50):
+    case scoreInt > 0 && scoreInt <= 50:
       color = themeColors.positive;
       break;
-    case (scoreInt > 50):
+    case scoreInt > 50:
       color = themeColors.success;
       break;
     default:

@@ -20,10 +20,8 @@ const noMarginBottom = {
   // padding: 0,
 };
 ReactDOM.render(
-
   <div className='page'>
     <div className='page-main'>
-
       <Header />
 
       <Card style={noMarginBottom}>
@@ -32,12 +30,9 @@ ReactDOM.render(
           {/* <CompA /> */}
         </CardBody>
       </Card>
-
     </div>
 
     <Footer />
-
-  </div>
-  ,
+  </div>,
   document.getElementById('root') as HTMLElement,
 );
