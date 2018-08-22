@@ -115,7 +115,7 @@
     "webextensions-jsdom": "0.11.0",
     "webpack": "3.11.0",
     "webpack-bundle-analyzer": "2.13.1",
-    "webpack-dev-server": "2.11.1",
+    "webpack-dev-server": "2.11.3",
     "wrapper-webpack-plugin": "1.0.0"
   },
   "jest": {
