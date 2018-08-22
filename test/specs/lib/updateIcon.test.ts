@@ -20,26 +20,36 @@ describe('updateIcon.js', () => {
     });
 
     expect(result).toBe(true);
-    expect(browser.browserAction.setTitle.withArgs({
-      tabId,
-      title: 'Trive it!',
-    }).calledOnce).toBe(true);
-    expect(browser.browserAction.setBadgeText.withArgs({
-      tabId,
-      text: '!',
-    }).calledOnce).toBe(true);
-    expect(browser.browserAction.setBadgeBackgroundColor.withArgs({
-      tabId,
-      color: themeColors.default,
-    }).calledOnce).toBe(true);
-    expect(browser.browserAction.setIcon.withArgs({
-      tabId,
-      path: defaultIcon,
-    }).calledOnce).toBe(true);
-    expect(browser.browserAction.setPopup.withArgs({
-      tabId,
-      popup: 'popup.html',
-    }).calledOnce).toBe(true);
+    expect(
+      browser.browserAction.setTitle.withArgs({
+        tabId,
+        title: 'Trive it!',
+      }).calledOnce,
+    ).toBe(true);
+    expect(
+      browser.browserAction.setBadgeText.withArgs({
+        tabId,
+        text: '!',
+      }).calledOnce,
+    ).toBe(true);
+    expect(
+      browser.browserAction.setBadgeBackgroundColor.withArgs({
+        tabId,
+        color: themeColors.default,
+      }).calledOnce,
+    ).toBe(true);
+    expect(
+      browser.browserAction.setIcon.withArgs({
+        tabId,
+        path: defaultIcon,
+      }).calledOnce,
+    ).toBe(true);
+    expect(
+      browser.browserAction.setPopup.withArgs({
+        tabId,
+        popup: 'popup.html',
+      }).calledOnce,
+    ).toBe(true);
   });
 
   it('updates icon title to given value', async () => {
@@ -49,10 +59,12 @@ describe('updateIcon.js', () => {
     });
 
     expect(result).toBe(true);
-    expect(browser.browserAction.setTitle.withArgs({
-      tabId,
-      title: 'loading...',
-    }).calledOnce).toBe(true);
+    expect(
+      browser.browserAction.setTitle.withArgs({
+        tabId,
+        title: 'loading...',
+      }).calledOnce,
+    ).toBe(true);
   });
 
   it('updates badge text to given value', async () => {
@@ -62,10 +74,12 @@ describe('updateIcon.js', () => {
     });
 
     expect(result).toBe(true);
-    expect(browser.browserAction.setBadgeText.withArgs({
-      tabId,
-      text: '+23',
-    }).calledOnce).toBe(true);
+    expect(
+      browser.browserAction.setBadgeText.withArgs({
+        tabId,
+        text: '+23',
+      }).calledOnce,
+    ).toBe(true);
   });
 
   it('updates badge background color to given value', async () => {
@@ -75,10 +89,12 @@ describe('updateIcon.js', () => {
     });
 
     expect(result).toBe(true);
-    expect(browser.browserAction.setBadgeBackgroundColor.withArgs({
-      tabId,
-      color: themeColors.info,
-    }).calledOnce).toBe(true);
+    expect(
+      browser.browserAction.setBadgeBackgroundColor.withArgs({
+        tabId,
+        color: themeColors.info,
+      }).calledOnce,
+    ).toBe(true);
   });
 
   it('can disable extension icon and popup', async () => {
@@ -88,14 +104,18 @@ describe('updateIcon.js', () => {
     });
 
     expect(result).toBe(true);
-    expect(browser.browserAction.setIcon.withArgs({
-      tabId,
-      path: grayIcon,
-    }).calledOnce).toBe(true);
-    expect(browser.browserAction.setPopup.withArgs({
-      tabId,
-      popup: '',
-    }).calledOnce).toBe(true);
+    expect(
+      browser.browserAction.setIcon.withArgs({
+        tabId,
+        path: grayIcon,
+      }).calledOnce,
+    ).toBe(true);
+    expect(
+      browser.browserAction.setPopup.withArgs({
+        tabId,
+        popup: '',
+      }).calledOnce,
+    ).toBe(true);
   });
 
   it('returns false on failure to setTitle', async () => {

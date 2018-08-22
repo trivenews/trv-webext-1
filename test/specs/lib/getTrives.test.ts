@@ -7,14 +7,18 @@ describe('getTrives.js', () => {
     global.browser = browserMocks.default();
   });
   it('can return trive for a single url', async () => {
-    const googleScore = await getTrives([{
-      link: '',
-      fullLink: 'https://google.com',
-    }]);
-    const noneScore = await getTrives([{
-      link: '',
-      fullLink: '',
-    }]);
+    const googleScore = await getTrives([
+      {
+        link: '',
+        fullLink: 'https://google.com',
+      },
+    ]);
+    const noneScore = await getTrives([
+      {
+        link: '',
+        fullLink: '',
+      },
+    ]);
     expect(googleScore[0].score).toBe('');
     expect(noneScore[0].score).toBe('');
   });
