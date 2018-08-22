@@ -1,6 +1,7 @@
 {
   "extends": [
-    "tslint-config-airbnb"
+    "tslint-config-airbnb",
+    "tslint-config-prettier"
   ],
   "rules": {
     "linebreak-style": [
@@ -19,7 +20,8 @@
       true,
       "always"
     ],
-    "space-before-function-paren": false
+    "space-before-function-paren": false,
+    "trailing-comma": true
   },
   "defaultSeverity": "warning"
 }
