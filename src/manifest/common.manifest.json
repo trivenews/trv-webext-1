@@ -35,10 +35,7 @@
     "default_title": "Trive it!",
     "default_popup": "popup.html"
   },
-  "web_accessible_resources": [
-    "static/icons/Jcrop.gif",
-    "static/icons/pixel.png"
-  ],
+  "web_accessible_resources": [],
   "permissions": [
     "bookmarks",
     "storage",
