@@ -79,7 +79,7 @@
     "fork-ts-checker-webpack-plugin": "0.4.9",
     "fs-extra": "5.0.0",
     "generate-json-webpack-plugin": "0.2.2",
-    "html-webpack-plugin": "3.0.6",
+    "html-webpack-plugin": "3.2.0",
     "husky": "0.14.3",
     "jest": "22.4.4",
     "jest-fetch-mock": "1.6.5",
