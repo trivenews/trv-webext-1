@@ -58,7 +58,7 @@
     "archiver": "2.1.1",
     "autoprefixer": "7.2.6",
     "babel-core": "6.26.0",
-    "babel-jest": "22.4.1",
+    "babel-jest": "22.4.4",
     "babel-loader": "7.1.4",
     "babel-plugin-transform-object-rest-spread": "6.26.0",
     "babel-preset-env": "1.7.0",
