@@ -206,9 +206,9 @@
   version "4.0.35"
   resolved "https://registry.npmjs.org/@types/node/-/node-4.0.35.tgz#2b96b8e67bea7451e6e1ba8b65eaeb8f223261ed"
 
-"@types/node@9.6.28":
-  version "9.6.28"
-  resolved "https://registry.yarnpkg.com/@types/node/-/node-9.6.28.tgz#198927ce0786106ec2a7c8652d46d5f8b87bfc5f"
+"@types/node@9.6.31":
+  version "9.6.31"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-9.6.31.tgz#4d1722987f8d808b4c194dceb8c213bd92f028e5"
 
 "@types/react-dom@16.0.7":
   version "16.0.7"
