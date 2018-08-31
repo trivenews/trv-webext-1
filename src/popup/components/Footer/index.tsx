@@ -1,14 +1,14 @@
 import * as React from 'react';
-
+import { Container, Row, Col } from 'reactstrap';
 class Footer extends React.Component<{}, any> {
   render() {
     return (
       <footer className='footer'>
-        <div className='container'>
-          <div className='row align-items-center flex-row-reverse'>
-            <div className='col-auto ml-lg-auto'>
-              <div className='row align-items-center'>
-                <div className='col-auto'>
+        <Container>
+          <Row className='align-items-center flex-row-reverse'>
+            <Col className='col-auto ml-lg-auto'>
+              <Row className='align-items-center'>
+                <Col className='col-auto'>
                   <ul className='list-inline list-inline-dots mb-0'>
                     <li className='list-inline-item'>
                       <a href='#'>🐛 Found a bug?</a>
@@ -23,16 +23,16 @@ class Footer extends React.Component<{}, any> {
                       <a href='#'>FAQ</a>
                     </li>
                   </ul>
-                </div>
-                <div className='col-auto'>
+                </Col>
+                <Col className='col-auto'>
                   <a href='#' className='btn btn-outline-primary btn-sm'>
                     Website
                   </a>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
+                </Col>
+              </Row>
+            </Col>
+          </Row>
+        </Container>
       </footer>
     );
   }
