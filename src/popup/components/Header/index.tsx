@@ -1,8 +1,22 @@
 import * as React from 'react';
-import { Button } from 'reactstrap';
+import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
 
 const logo = browser.runtime.getURL('static/icons/trive-32.png');
 class Header extends React.Component<{}, any> {
+  constructor(props) {
+    super(props);
+
+    this.toggleUserMenu = this.toggleUserMenu.bind(this);
+    this.state = {
+      dropdownOpen: false,
+    };
+  }
+
+  toggleUserMenu() {
+    this.setState(prevState => ({
+      dropdownOpen: !prevState.dropdownOpen,
+    }));
+  }
   render() {
     const notifAvatarStyle = {
       backgroundImage: 'url(../static/icons/trive-32.png)',
@@ -50,39 +64,33 @@ class Header extends React.Component<{}, any> {
                 </a>
               </div>
             </div> */}
-            <div className='dropdown'>
-              <a href='#' className='nav-link pr-0 leading-none' data-toggle='dropdown'>
-                <span className='avatar' style={notifAvatarStyle} />
-                <span className='ml-2 d-block'>
-                  <span className='text-default'>Guest</span>
-                  <small className='text-muted d-block mt-1'>Researcher</small>
-                </span>
-              </a>
-              <div className='dropdown-menu dropdown-menu-right dropdown-menu-arrow'>
-                <a className='dropdown-item' href='#'>
-                  <i className='dropdown-icon fe fe-user' /> Profile
-                </a>
-                <a className='dropdown-item' href='#'>
-                  <i className='dropdown-icon fe fe-settings' /> Settings
-                </a>
-                <a className='dropdown-item' href='#'>
-                  <span className='float-right'>
-                    <span className='badge badge-primary'>6</span>
+            <Dropdown isOpen={this.state.dropdownOpen} toggle={this.toggleUserMenu}>
+              <DropdownToggle tag='span'>
+                <a href='#' className='nav-link pr-0 leading-none'>
+                  <span className='avatar' style={notifAvatarStyle} />
+                  <span className='ml-2 d-block'>
+                    <span className='text-default'>Guest</span>
+                    <small className='text-muted d-block mt-1'>Researcher</small>
                   </span>
-                  <i className='dropdown-icon fe fe-mail' /> Inbox
                 </a>
-                <a className='dropdown-item' href='#'>
-                  <i className='dropdown-icon fe fe-send' /> Message
-                </a>
-                <div className='dropdown-divider' />
-                <a className='dropdown-item' href='#'>
+              </DropdownToggle>
+              <DropdownMenu right>
+                <DropdownItem header>Menu</DropdownItem>
+                <DropdownItem>
+                  <i className='dropdown-icon fe fe-user' /> Profile
+                </DropdownItem>
+                <DropdownItem>
+                  <i className='dropdown-icon fe fe-settings' /> Settings
+                </DropdownItem>
+                <DropdownItem divider />
+                <DropdownItem>
                   <i className='dropdown-icon fe fe-help-circle' /> Need help?
-                </a>
-                <a className='dropdown-item' href='#'>
+                </DropdownItem>
+                <DropdownItem>
                   <i className='dropdown-icon fe fe-log-out' /> Sign out
-                </a>
-              </div>
-            </div>
+                </DropdownItem>
+              </DropdownMenu>
+            </Dropdown>
           </div>
         </div>
       </div>
