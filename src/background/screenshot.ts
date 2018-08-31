@@ -56,7 +56,7 @@ const saveFile = async (blob: Blob, filename: string) => {
     });
   } catch (error) {
     console.log(`Error while trying to save screenshot\n${JSON.stringify(error)}`);
-    console.log(`${filename}`);
+    console.log(`File name:${filename}`);
   }
 };
 
@@ -95,7 +95,7 @@ const screenshot = async (messageData?) => {
 
   const screenshotBlob = dataUrltoBlob(screenshotDataUri);
 
-  saveFile(screenshotBlob, screenshotFilename());
+  await saveFile(screenshotBlob, screenshotFilename());
 };
 
 export default screenshot;
