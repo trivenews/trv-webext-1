@@ -5,7 +5,7 @@ const logo = browser.runtime.getURL('static/icons/trive-32.png');
 class Header extends React.Component<{}, any> {
   render() {
     const notifAvatarStyle = {
-      backgroundImage: 'url(../public/static/icons/trive-32.png)'
+      backgroundImage: 'url(../static/icons/trive-32.png)',
     };
     return (
       <div className='header py-4 px-2'>
@@ -16,59 +16,42 @@ class Header extends React.Component<{}, any> {
           </a>
           <div className='d-flex ml-auto'>
             {/* Notifications */}
-            <div className='dropdown d-flex'>
+
+            {/*<div className='dropdown d-flex'>
               <a className='nav-link icon' data-toggle='dropdown'>
                 <i className='fe fe-bell' />
                 <span className='nav-unread' />
               </a>
               <div className='dropdown-menu dropdown-menu-right dropdown-menu-arrow'>
                 <a href='#' className='dropdown-item d-flex'>
-                  <span
-                    className='avatar mr-3 align-self-center'
-                    style={notifAvatarStyle}
-                  />
+                  <span className='avatar mr-3 align-self-center' style={notifAvatarStyle} />
                   <div>
-                    <strong>Nathan</strong> pushed new commit: Fix page load
-                    performance issue.
+                    <strong>Nathan</strong> pushed new commit: Fix page load performance issue.
                     <div className='small text-muted'>10 minutes ago</div>
                   </div>
                 </a>
                 <a href='#' className='dropdown-item d-flex'>
-                  <span
-                    className='avatar mr-3 align-self-center'
-                    style={notifAvatarStyle}
-                  />
+                  <span className='avatar mr-3 align-self-center' style={notifAvatarStyle} />
                   <div>
                     <strong>Alice</strong> started new task: Tabler UI design.
                     <div className='small text-muted'>1 hour ago</div>
                   </div>
                 </a>
                 <a href='#' className='dropdown-item d-flex'>
-                  <span
-                    className='avatar mr-3 align-self-center'
-                    style={notifAvatarStyle}
-                  />
+                  <span className='avatar mr-3 align-self-center' style={notifAvatarStyle} />
                   <div>
-                    <strong>Rose</strong> deployed new version of NodeJS REST
-                    Api V3
+                    <strong>Rose</strong> deployed new version of NodeJS REST Api V3
                     <div className='small text-muted'>2 hours ago</div>
                   </div>
                 </a>
                 <div className='dropdown-divider' />
-                <a
-                  href='#'
-                  className='dropdown-item text-center text-muted-dark'
-                >
+                <a href='#' className='dropdown-item text-center text-muted-dark'>
                   Mark all as read
                 </a>
               </div>
-            </div>
+            </div> */}
             <div className='dropdown'>
-              <a
-                href='#'
-                className='nav-link pr-0 leading-none'
-                data-toggle='dropdown'
-              >
+              <a href='#' className='nav-link pr-0 leading-none' data-toggle='dropdown'>
                 <span className='avatar' style={notifAvatarStyle} />
                 <span className='ml-2 d-block'>
                   <span className='text-default'>Guest</span>

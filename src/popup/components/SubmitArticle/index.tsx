@@ -31,7 +31,7 @@ class SubmitArticle extends React.Component<{}, any> {
           <Input type='textarea' minLength='30' rows='5' name='whatsWrong' id='whatsWrong' />
         </FormGroup>
 
-        <div className='form-inline flex-row-reverse'>
+        {/*<div className='form-inline flex-row-reverse'>
           <FormGroup className='mr-2'>
             <Label for='researchers' className='mr-1'>
               Researchers
@@ -56,17 +56,17 @@ class SubmitArticle extends React.Component<{}, any> {
               <option>50</option>
             </Input>
           </FormGroup>
-        </div>
-        <div className='form-inline flex-row-reverse mt-2'>
-          <Button className='' color='primary'>
+        </div> */}
+        <div className='form-inline flex-row-reverse'>
+          <Button className='mt-3' color='primary'>
             Trive this!
           </Button>
-          <FormGroup className='mr-2'>
+          {/*<FormGroup className='mr-2'>
             <Label for='userEmail' className='mr-1'>
               Your Email
             </Label>
             <Input type='email' name='userEmail' id='userEmail' placeholder='something@idk.cool' />
-          </FormGroup>
+          </FormGroup> */}
         </div>
       </Form>
     );
