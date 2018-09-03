@@ -1,4 +1,4 @@
-import screenshot from './screenshot';
+import screenshot, { saveFile } from './screenshot';
 
 // import {
 //   onActivated,
@@ -37,10 +37,16 @@ browser.runtime.onMessage.addListener(message => {
   const backgroundMessage: BackgroundMessage = message;
 
   switch (backgroundMessage.action) {
-    case 'capture':
-      screenshot(message.data);
-      break;
+    case 'capture-and-save':
+      screenshot().then(saveFile);
 
+      break;
+    case 'capture-only':
+      return screenshot();
+    case 'save-only':
+      saveFile(message.data);
+
+      break;
     default:
       break;
   }
@@ -51,4 +57,4 @@ interface BackgroundMessage {
 
   data?: any;
 }
-type BackgroundMessageAction = 'capture';
+type BackgroundMessageAction = 'capture-and-save' | 'capture-only' | 'save-only';
