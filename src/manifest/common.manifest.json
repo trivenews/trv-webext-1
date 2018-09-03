@@ -33,18 +33,20 @@
     "default_title": "Trive it!",
     "default_popup": "popup.html"
   },
-  "web_accessible_resources": [],
+  "web_accessible_resources": ["static/icons/pixel.png"],
   "permissions": [
     "bookmarks",
     "storage",
     "activeTab",
     "http://*/",
     "https://*/",
+    "<all_urls>",
     "tabCapture",
     "unlimitedStorage",
     "clipboardWrite",
     "downloads",
-    "contextMenus"
+    "contextMenus",
+    "tabs"
   ],
   "content_security_policy": "script-src 'self' 'unsafe-eval'; object-src 'self'"
 }

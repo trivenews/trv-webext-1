@@ -1,11 +1,28 @@
 import * as React from 'react';
 import { Button, CustomInput, Form, FormGroup, Label, Input } from 'reactstrap';
 
+const activateCropper = async () => {
+  try {
+    const tabs = await browser.tabs.query({
+      active: true,
+    });
+
+    // this makes sure we only activate cropper in the current active tab
+    browser.tabs.sendMessage(tabs[0].id || 0, { data: 'activate-cropper' }).then(res => console.log(res));
+  } catch (error) {
+    console.log('Error activating cropper');
+    console.log(error);
+  }
+};
+
 class SubmitArticle extends React.Component<{}, any> {
   captureVisible = () => {
     browser.runtime.sendMessage({
-      action: 'capture',
+      action: 'capture-and-save',
     });
+  }
+  captureRegion = () => {
+    activateCropper();
   }
 
   render() {
@@ -20,7 +37,7 @@ class SubmitArticle extends React.Component<{}, any> {
             <Button className='btn-pill ml-2' color='secondary' onClick={this.captureVisible}>
               📷
             </Button>
-            <Button className='btn-pill ml-2' color='secondary'>
+            <Button className='btn-pill ml-2' color='secondary' onClick={this.captureRegion}>
               🔲
             </Button>
           </FormGroup>
