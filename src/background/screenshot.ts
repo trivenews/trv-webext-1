@@ -1,5 +1,3 @@
-import cropperjs from 'cropperjs';
-
 /**
  *  Converts `DataURI` string to blob
  * @param dataUri
@@ -47,7 +45,9 @@ const captureVisibleTab = async (windowId?: number): Promise<string> => {
   return await browser.tabs.captureVisibleTab(windowId, imageDetails);
 };
 
-const saveFile = async (blob: Blob, filename: string) => {
+export const saveFile = async (screenshotDataUri: string, filename: string = screenshotFilename()) => {
+  const blob = dataUrltoBlob(screenshotDataUri);
+
   try {
     await browser.downloads.download({
       filename,
@@ -60,42 +60,14 @@ const saveFile = async (blob: Blob, filename: string) => {
   }
 };
 
-/**
- *
- * @param imageDataUri
- * @param cropData
- * @returns a `DataURL` of the cropped image in `JPEG` format
- */
-function cropImage(imageDataUri: string, cropData: cropperjs.Data): string {
-  const imageEl = new Image();
-  imageEl.src = imageDataUri;
-
-  return new cropperjs(imageEl)
-    .setData(cropData)
-    .getCroppedCanvas()
-    .toDataURL('image/jpeg', 1.0);
-}
-
 const screenshotFilename = () =>
   'Trive screenshot ' + new Date(Date.now()).toLocaleString().replace(/, |:|\//g, '-') + '.jpg';
 
 /**
- * Captures the visible tab in curerntly active window
- * crops the captured if messageData is supplied
- * saves the file to disk with a save dialog
- * @param messageData
+ * Captures and returns screenshot DataUri
  */
-const screenshot = async (messageData?) => {
-  const cropData: cropperjs.Data = messageData;
-  let screenshotDataUri = await captureVisibleTab();
-
-  if (cropData) {
-    screenshotDataUri = cropImage(screenshotDataUri, cropData);
-  }
-
-  const screenshotBlob = dataUrltoBlob(screenshotDataUri);
-
-  await saveFile(screenshotBlob, screenshotFilename());
+const screenshot = async () => {
+  return await captureVisibleTab();
 };
 
 export default screenshot;
