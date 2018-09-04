@@ -46,6 +46,40 @@ describe('storage.js - storage.scoreCache', () => {
   });
 });
 
+describe('storage.js - storage.formCache', () => {
+  beforeEach(() => {
+    // New browser for each test
+    browser = browserMock.default();
+    // @ts-ignore
+    global.browser = browser;
+  });
+
+  it('can cache fields', async () => {
+    await storage.formCache.set('https://www.theAnswerToLife.Is', { field: 'value' });
+
+    const score = await storage.formCache.get('https://www.theAnswerToLife.Is');
+
+    expect(score).toEqual({ field: 'value' });
+  });
+
+  it('does not override formCache object', async () => {
+    await storage.formCache.set('https://www.theAnswerToLife.Is', { field: 'value' });
+    await storage.formCache.set('https://www.theAnswerToLife.IsNot', { field: 'value2' });
+
+    const score1 = await storage.formCache.get('https://www.theAnswerToLife.Is');
+    const score2 = await storage.formCache.get('https://www.theAnswerToLife.IsNot');
+
+    expect(score1).toEqual({ field: 'value' });
+    expect(score2).toEqual({ field: 'value2' });
+  });
+
+  it('returns {} when no fields found', async () => {
+    const score = await storage.formCache.get('https://www.theAnswerToLife.Is');
+
+    expect(score).toEqual({});
+  });
+});
+
 describe('storage.js - storage.config', () => {
   ['settings', 'popup', 'content', 'background'].forEach((settingType: string) => {
     describe(`${settingType}`, () => {
