@@ -46,172 +46,49 @@ describe('storage.js - storage.scoreCache', () => {
   });
 });
 
-describe('storage.js - storage.config.settings', () => {
-  beforeEach(() => {
-    // New browser for each test
-    browser = browserMock.default();
-    // @ts-ignore
-    global.browser = browser;
-  });
+describe('storage.js - storage.config', () => {
+  ['settings', 'popup', 'content', 'background'].forEach((settingType: string) => {
+    describe(`${settingType}`, () => {
+      beforeEach(() => {
+        // New browser for each test
+        browser = browserMock.default();
+        // @ts-ignore
+        global.browser = browser;
+      });
 
-  it('can store settings', async () => {
-    await storage.config.settings.set('settingName1', 'settingsValue1');
+      it(`can store ${settingType}`, async () => {
+        await storage.config[settingType].set('settingName1', 'settingsValue1');
 
-    const settingName1 = await storage.config.settings.get('settingName1');
+        const settingName1 = await storage.config[settingType].get('settingName1');
 
-    expect(settingName1).toBe('settingsValue1');
-  });
+        expect(settingName1).toBe('settingsValue1');
+      });
 
-  it('does not override settings object', async () => {
-    await storage.config.settings.set('settingName1', 'settingsValue1');
-    await storage.config.settings.set('settingName2', 'settingsValue2');
+      it(`does not override ${settingType} object`, async () => {
+        await storage.config[settingType].set('settingName1', 'settingsValue1');
+        await storage.config[settingType].set('settingName2', 'settingsValue2');
 
-    const settingName1 = await storage.config.settings.get('settingName1');
-    const settingName2 = await storage.config.settings.get('settingName2');
+        const settingName1 = await storage.config[settingType].get('settingName1');
+        const settingName2 = await storage.config[settingType].get('settingName2');
 
-    expect(settingName1).toBe('settingsValue1');
-    expect(settingName2).toBe('settingsValue2');
-  });
+        expect(settingName1).toBe('settingsValue1');
+        expect(settingName2).toBe('settingsValue2');
+      });
 
-  it('returns undefined if property not found', async () => {
-    const settingName2 = await storage.config.settings.get('settingName2');
-    expect(settingName2).toBe(undefined);
-  });
+      it('returns undefined if property not found', async () => {
+        const settingName2 = await storage.config[settingType].get('settingName2');
+        expect(settingName2).toBe(undefined);
+      });
 
-  it('returns the whole settings object if key not specified', async () => {
-    await storage.config.settings.set('settingName1', 'settingsValue1');
+      it(`returns the whole ${settingType} object if key not specified`, async () => {
+        await storage.config[settingType].set('settingName1', 'settingsValue1');
 
-    const settingsObject = await storage.config.settings.get(null);
+        const settingsObject = await storage.config[settingType].get(null);
 
-    expect(settingsObject).toEqual({
-      settingName1: 'settingsValue1',
-    });
-  });
-});
-describe('storage.js - storage.config.popup', () => {
-  beforeEach(() => {
-    // New browser for each test
-    browser = browserMock.default();
-    // @ts-ignore
-    global.browser = browser;
-  });
-
-  it('can store popup settings', async () => {
-    await storage.config.popup.set('settingName1', 'settingsValue1');
-
-    const settingName1 = await storage.config.popup.get('settingName1');
-
-    expect(settingName1).toBe('settingsValue1');
-  });
-
-  it('does not override popup settings object', async () => {
-    await storage.config.popup.set('settingName1', 'settingsValue1');
-    await storage.config.popup.set('settingName2', 'settingsValue2');
-
-    const settingName1 = await storage.config.popup.get('settingName1');
-    const settingName2 = await storage.config.popup.get('settingName2');
-
-    expect(settingName1).toBe('settingsValue1');
-    expect(settingName2).toBe('settingsValue2');
-  });
-
-  it('returns undefined if property not found', async () => {
-    const settingName2 = await storage.config.popup.get('settingName2');
-    expect(settingName2).toBe(undefined);
-  });
-
-  it('returns the whole popup settings object if key not specified', async () => {
-    await storage.config.popup.set('settingName1', 'settingsValue1');
-
-    const settingsObject = await storage.config.popup.get(null);
-
-    expect(settingsObject).toEqual({
-      settingName1: 'settingsValue1',
-    });
-  });
-});
-describe('storage.js - storage.config.content', () => {
-  beforeEach(() => {
-    // New browser for each test
-    browser = browserMock.default();
-    // @ts-ignore
-    global.browser = browser;
-  });
-
-  it('can store content settings', async () => {
-    await storage.config.content.set('settingName1', 'settingsValue1');
-
-    const settingName1 = await storage.config.content.get('settingName1');
-
-    expect(settingName1).toBe('settingsValue1');
-  });
-
-  it('does not override content settings object', async () => {
-    await storage.config.content.set('settingName1', 'settingsValue1');
-    await storage.config.content.set('settingName2', 'settingsValue2');
-
-    const settingName1 = await storage.config.content.get('settingName1');
-    const settingName2 = await storage.config.content.get('settingName2');
-
-    expect(settingName1).toBe('settingsValue1');
-    expect(settingName2).toBe('settingsValue2');
-  });
-
-  it('returns undefined if property not found', async () => {
-    const settingName2 = await storage.config.content.get('settingName2');
-
-    expect(settingName2).toBe(undefined);
-  });
-
-  it('returns the whole content settings object if key not specified', async () => {
-    await storage.config.content.set('settingName1', 'settingsValue1');
-
-    const settingsObject = await storage.config.content.get(null);
-
-    expect(settingsObject).toEqual({
-      settingName1: 'settingsValue1',
-    });
-  });
-});
-describe('storage.js - storage.config.background', () => {
-  beforeEach(() => {
-    // New browser for each test
-    browser = browserMock.default();
-    // @ts-ignore
-    global.browser = browser;
-  });
-
-  it('can store background settings', async () => {
-    await storage.config.background.set('settingName1', 'settingsValue1');
-
-    const settingName1 = await storage.config.background.get('settingName1');
-
-    expect(settingName1).toBe('settingsValue1');
-  });
-
-  it('does not override background settings object', async () => {
-    await storage.config.background.set('settingName1', 'settingsValue1');
-    await storage.config.background.set('settingName2', 'settingsValue2');
-
-    const settingName1 = await storage.config.background.get('settingName1');
-    const settingName2 = await storage.config.background.get('settingName2');
-
-    expect(settingName1).toBe('settingsValue1');
-    expect(settingName2).toBe('settingsValue2');
-  });
-
-  it('returns undefined if property not found', async () => {
-    const settingName2 = await storage.config.background.get('settingName2');
-    expect(settingName2).toBe(undefined);
-  });
-
-  it('returns the whole background settings object if key not specified', async () => {
-    await storage.config.background.set('settingName1', 'settingsValue1');
-
-    const settingsObject = await storage.config.background.get(null);
-
-    expect(settingsObject).toEqual({
-      settingName1: 'settingsValue1',
+        expect(settingsObject).toEqual({
+          settingName1: 'settingsValue1',
+        });
+      });
     });
   });
 });
