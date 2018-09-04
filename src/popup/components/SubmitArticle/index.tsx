@@ -1,14 +1,18 @@
 import * as React from 'react';
 import { Button, CustomInput, Form, FormGroup, Label, Input } from 'reactstrap';
+import { storage } from '../../../lib';
+
+const currentTab = async () =>
+  (await browser.tabs.query({
+    active: true,
+  }))[0];
 
 const activateCropper = async () => {
   try {
-    const tabs = await browser.tabs.query({
-      active: true,
-    });
+    const tab = await currentTab();
 
     // this makes sure we only activate cropper in the current active tab
-    browser.tabs.sendMessage(tabs[0].id || 0, { data: 'activate-cropper' }).then(res => console.log(res));
+    browser.tabs.sendMessage(tab.id || 0, { data: 'activate-cropper' }).then(res => console.log(res));
   } catch (error) {
     console.log('Error activating cropper');
     console.log(error);
@@ -16,36 +20,131 @@ const activateCropper = async () => {
 };
 
 class SubmitArticle extends React.Component<{}, any> {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      selectedScreenshotFilename: 'No file selected',
+      screenshotFile: '',
+      title: '',
+      url: '',
+      desc: '',
+    };
+
+    currentTab().then(tab => {
+      this.setState(() => ({
+        title: tab.title,
+        url: tab.url,
+      }));
+
+      storage.formCache.get(this.state.url).then(cache => {
+        if (Object.keys(cache).length) {
+          this.setState(() => cache);
+        }
+      });
+    });
+  }
+
   captureVisible = () => {
     browser.runtime.sendMessage({
       action: 'capture-and-save',
     });
   }
+
   captureRegion = () => {
     activateCropper();
   }
 
+  updateScreenshotState = (target: HTMLInputElement) => {
+    let name: string = 'No file selected';
+    let fileDataUri: string = '';
+    let fileBlob;
+
+    if (target.files && target.files.length) {
+      name = target.files[0].name;
+      fileBlob = target.files[0];
+    }
+
+    if (fileBlob) {
+      const reader = new FileReader();
+      reader.readAsDataURL(fileBlob);
+      reader.onloadend = () => {
+        fileDataUri = reader.result as string;
+
+        this.setState({ screenshotFile: fileDataUri }, () => {
+          storage.formCache.set(this.state.url, this.state);
+        });
+      };
+    }
+
+    // Always update the name i.e. label and title
+    this.setState({ selectedScreenshotFilename: name }, () => {
+      storage.formCache.set(this.state.url, this.state);
+    });
+  }
+
+  cacheForm = (e: Event) => {
+    e.stopPropagation();
+    e.preventDefault();
+
+    if (!e.target) {
+      return;
+    }
+
+    const target = e.target as HTMLInputElement;
+
+    switch (target.name) {
+      case 'desc':
+        const state = { desc: target.value };
+        this.setState(state, () => {
+          storage.formCache.set(this.state.url, this.state);
+        });
+        break;
+      case 'screenshotFile':
+        this.updateScreenshotState(target);
+        break;
+
+      default:
+        break;
+    }
+  }
+
   render() {
     return (
-      <Form>
+      <Form onInput={this.cacheForm}>
         <Label for='screenshotFile'>Select Sreenshot</Label>
         <div className='form-inline'>
           <FormGroup>
-            <CustomInput type='file' id='screenshotFile' name='screenshotFile' label='Max size of 2MB' />
+            <CustomInput
+              type='file'
+              accept='.jpg,.jpeg'
+              id='screenshotFile'
+              name='screenshotFile'
+              label={
+                this.state.selectedScreenshotFilename.length < 20
+                  ? this.state.selectedScreenshotFilename
+                  : this.state.selectedScreenshotFilename.substr(0, 20) + '...'
+              }
+              title={this.state.selectedScreenshotFilename}
+            />
           </FormGroup>
           <FormGroup>
-            <Button className='btn-pill ml-2' color='secondary' onClick={this.captureVisible}>
+            <Button
+              className='btn-pill ml-2'
+              color='secondary'
+              onClick={this.captureVisible}
+              title='Capture visible tab'>
               📷
             </Button>
-            <Button className='btn-pill ml-2' color='secondary' onClick={this.captureRegion}>
+            <Button className='btn-pill ml-2' color='secondary' onClick={this.captureRegion} title='Capture region'>
               🔲
             </Button>
           </FormGroup>
         </div>
 
         <FormGroup>
-          <Label for='whatsWrong'>What's Wrong on the Internet? [Describe Content to be Trived]</Label>
-          <Input type='textarea' minLength='30' rows='5' name='whatsWrong' id='whatsWrong' />
+          <Label for='desc'>What's Wrong on the Internet? [Describe Content to be Trived]</Label>
+          <Input type='textarea' minLength='30' rows='5' name='desc' id='desc' value={this.state.desc} />
         </FormGroup>
 
         {/*<div className='form-inline flex-row-reverse'>

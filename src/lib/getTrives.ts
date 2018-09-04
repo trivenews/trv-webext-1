@@ -8,6 +8,7 @@ import storage from './storage';
  */
 const checkLocalCache = async links => {
   const results = [{}];
+  // @ts-ignore
   const scoreCaches = await storage.scoreCache.get(null);
 
   links.forEach(elm => {
