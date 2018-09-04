@@ -73,10 +73,9 @@ browser.runtime.onMessage.addListener(message => {
       const aElm = document.querySelectorAll(`a[href="${elm.link}"]`);
       aElm.forEach(element => {
         if (element.firstChild) {
-          const div = document.createElement('div');
-          div.innerHTML = scoreCardComponent(elm.score);
+          const scoreCard = scoreCardComponent(elm.score);
           // Modify this to change the location for scoreCardComponent
-          element.insertBefore(div, element.firstChild);
+          element.insertBefore(scoreCard, element.firstChild);
         }
       });
     });

@@ -18,8 +18,7 @@ export default function scoreCardComponent(score) {
   if (scoreInt > 50) {
     background = themeColors.success;
   }
-
-  return `<div  title="${title}"
+  let html = `<div  title="${title}"
   style="
   background-color:${background};
   color:${textColor};
@@ -28,4 +27,10 @@ export default function scoreCardComponent(score) {
   display:inline-block;">
   <span>${score}</span>
   </div> `;
+
+  const template = document.createElement('template');
+  html = html.trim(); // Never return a text node of whitespace as the result
+  template.innerHTML = html;
+
+  return template.content.firstChild as Node;
 }
