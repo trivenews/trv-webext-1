@@ -1,4 +1,5 @@
 import screenshot, { saveFile } from './screenshot';
+import { storage } from '../lib';
 
 // import {
 //   onActivated,
@@ -30,23 +31,33 @@ import screenshot, { saveFile } from './screenshot';
 
 // // browser.contextMenus.onClicked.addListener(contextMenu.handler);
 
-// This is a fake method that sends fake scores
+// This is a fake method that sends fake scores and caches them
 // ideally this would make a call to the server/IPFS
-const fakeScores = (links: [{ link: string; fullLink: string }]) => {
-  return links.map(el => ({ link: el.link, score: '??' }));
+const fakeScores = async (links: [{ link: string; fullLink: string }]) => {
+  const scores: any[] = [];
+
+  // here for loop makes things sync so we wait for each link score
+  // to be cached before adding it to the array
+  for (const i of links) {
+    await storage.scoreCache.set(i.fullLink, 0);
+    scores.push({ link: i.link, score: '??' });
+  }
+
+  return scores;
 };
 
 browser.runtime.onMessage.addListener((message, sender) => {
   if (Object.prototype.hasOwnProperty.call(message, 'links')) {
     console.log('got links to fetch');
     // const scores = await getTrives(message.links);
-    const scores = fakeScores(message.links);
+    fakeScores(message.links).then(scores => {
+      if (sender.tab) {
+        browser.tabs.sendMessage(sender.tab.id || 0, {
+          linksWithScores: scores,
+        });
+      }
+    });
 
-    if (sender.tab) {
-      browser.tabs.sendMessage(sender.tab.id || 0, {
-        linksWithScores: scores,
-      });
-    }
     return;
   }
 
