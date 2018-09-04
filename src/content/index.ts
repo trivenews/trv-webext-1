@@ -1,5 +1,24 @@
 import cropperjs from 'cropperjs';
 import './style/index.scss';
+import scoreCardComponent from '../lib/scoreCardComponent';
+import processLinks from '../lib/processLinks';
+
+window.addEventListener('load', () => {
+  processLinks(uniqueLinks => {
+    const links: [{ link?: string; fullLink?: string }] = [{}];
+
+    for (let i = 0; i < uniqueLinks.length; i += 1) {
+      links.push({
+        link: uniqueLinks[i].getAttribute('href'),
+        fullLink: uniqueLinks[i].href,
+      });
+    }
+
+    browser.runtime.sendMessage({
+      links,
+    });
+  });
+});
 
 let isCropperActivated = false;
 let cropper: cropperjs;
@@ -48,6 +67,22 @@ const activateCropper = (image: HTMLImageElement) => {
 };
 
 browser.runtime.onMessage.addListener(message => {
+  if (Object.prototype.hasOwnProperty.call(message, 'linksWithScores')) {
+    console.log('got links back');
+    message.linksWithScores.forEach(elm => {
+      const aElm = document.querySelectorAll(`a[href="${elm.link}"]`);
+      aElm.forEach(element => {
+        if (element.firstChild) {
+          const div = document.createElement('div');
+          div.innerHTML = scoreCardComponent(elm.score);
+          // Modify this to change the location for scoreCardComponent
+          element.insertBefore(div, element.firstChild);
+        }
+      });
+    });
+    return true;
+  }
+
   const pixelimage = fakeImage();
 
   if (!isCropperActivated && message.data === 'activate-cropper') {

@@ -6,12 +6,9 @@ import screenshot, { saveFile } from './screenshot';
 // } from '../_lib/handleTabEvents';
 // import handleIconClick from '../_lib/handleIconClick';
 // import contextMenu from '../_lib/contextMenu';
-// import handleOnMessageBackground from '../_lib/handleOnMessageBackground';
 
 // // listen from browserAction clicks
 // browser.browserAction.onClicked.addListener(handleIconClick);
-
-// browser.runtime.onMessage.addListener(handleOnMessageBackground);
 
 // // listen for bookmarks being created
 // // browser.bookmarks.onCreated.addListener(handleTabChange);
@@ -33,7 +30,26 @@ import screenshot, { saveFile } from './screenshot';
 
 // // browser.contextMenus.onClicked.addListener(contextMenu.handler);
 
-browser.runtime.onMessage.addListener(message => {
+// This is a fake method that sends fake scores
+// ideally this would make a call to the server/IPFS
+const fakeScores = (links: [{ link: string; fullLink: string }]) => {
+  return links.map(el => ({ link: el.link, score: '??' }));
+};
+
+browser.runtime.onMessage.addListener((message, sender) => {
+  if (Object.prototype.hasOwnProperty.call(message, 'links')) {
+    console.log('got links to fetch');
+    // const scores = await getTrives(message.links);
+    const scores = fakeScores(message.links);
+
+    if (sender.tab) {
+      browser.tabs.sendMessage(sender.tab.id || 0, {
+        linksWithScores: scores,
+      });
+    }
+    return;
+  }
+
   const backgroundMessage: BackgroundMessage = message;
 
   switch (backgroundMessage.action) {

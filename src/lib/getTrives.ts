@@ -1,18 +1,22 @@
 import { apiEndPoint } from './common';
 import storage from './storage';
 
+// TODO: this probably needs a complete rewrite
+
 /**
  *
- * @param {[{link:String,fullLink:String}]} links
- * @returns {Promise<[{link:String,score:String}]|any>} empty array if nothing found, cached scores otherwise
+ * @returns empty array if nothing found, cached scores otherwise
  */
-const checkLocalCache = async links => {
-  const results = [{}];
+const checkLocalCache = async (
+  links: [{ link: string; fullLink: string }],
+): Promise<[{ link: string; score: string }] | any> => {
+  const results = [];
   // @ts-ignore
   const scoreCaches = await storage.scoreCache.get(null);
 
   links.forEach(elm => {
     if (Object.prototype.hasOwnProperty.call(scoreCaches, elm.fullLink)) {
+      // @ts-ignore
       results.push({
         link: elm.link,
         score: scoreCaches[elm.fullLink],
@@ -28,7 +32,7 @@ const checkLocalCache = async links => {
  * @param {[{link:String,fullLink:String}]} links
  * @returns {Promise<[{link:String,score:String}]|[]>} empty array if nothing found, cached scores otherwise
  */
-const checkServer = async links => {
+const checkServer = async (links: [{ link: string; fullLink: string }]): Promise<[{ link: string; score: string }]> => {
   const results = [{}];
 
   try {
@@ -64,13 +68,14 @@ const checkServer = async links => {
     While fetching scores from server: ${JSON.stringify(links)}`,
     );
   }
-
+  // @ts-ignore
   return results;
 };
+
 /**
  * @param {[{link:String,score:String}]} scores
  * */
-const updateCache = async scores => {};
+const updateCache = async (scores: [{ link: string; score: string }]) => {};
 
 /**
  *
@@ -84,7 +89,7 @@ const updateCache = async scores => {};
  *  or array with single object with empty values if no links found in the database or failure.
  */
 
-const getTrives = async links => {
+const getTrives = async (links: [{ link: string; fullLink: string }]): Promise<[{ link: string; score: string }]> => {
   if (links.length) {
     const cachePromise = checkLocalCache(links);
     const serverPromise = checkServer(links);
@@ -98,7 +103,11 @@ const getTrives = async links => {
    * @param {[{link:String,score:String}]}cache
    * @param {[{link:String,score:String}]}server
    * */
-  const getTrive = async (link, cache, server) => {
+  const getTrive = async (
+    link: string,
+    cache: [{ link: string; score: string }],
+    server: [{ link: string; score: string }],
+  ) => {
     const isCached = cache.some(elm => link === elm.link);
     if (isCached) return cache;
   };

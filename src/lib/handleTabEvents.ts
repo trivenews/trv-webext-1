@@ -11,7 +11,7 @@ export async function onActivated(activeInfo) {
   const trive = await getTrives([
     {
       link: '',
-      fullLink: tab.url,
+      fullLink: tab.url || '',
     },
   ]);
 
