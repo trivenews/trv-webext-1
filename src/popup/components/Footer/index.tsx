@@ -1,6 +1,13 @@
 import * as React from 'react';
 import { Container, Row, Col } from 'reactstrap';
+import popupLinks from '../../../lib/popupLinks';
+
 class Footer extends React.Component<{}, any> {
+  constructor(props) {
+    super(props);
+    window.addEventListener('load', popupLinks);
+  }
+
   render() {
     return (
       <footer className='footer'>
@@ -11,21 +18,29 @@ class Footer extends React.Component<{}, any> {
                 <Col className='col-auto'>
                   <ul className='list-inline list-inline-dots mb-0'>
                     <li className='list-inline-item'>
-                      <a href='#'>🐛 Found a bug?</a>
+                      <a href='#' popup-link='https://github.com/devkabiir/trv-webext/issues/new/choose'>
+                        🐛 Found a bug?
+                      </a>
                     </li>
                     <li className='list-inline-item'>
-                      <a href='#'>Privacy Policy</a>
+                      <a href='#' popup-link='https://trive.news/privacy-policy'>
+                        Privacy Policy
+                      </a>
                     </li>
                     <li className='list-inline-item'>
-                      <a href='#'>Terms of service</a>
+                      <a href='#' popup-link='https://trive.news/terms-of-use'>
+                        Terms of service
+                      </a>
                     </li>
                     <li className='list-inline-item'>
-                      <a href='#'>FAQ</a>
+                      <a href='#' popup-link='https://trive.news/faq'>
+                        FAQ
+                      </a>
                     </li>
                   </ul>
                 </Col>
                 <Col className='col-auto'>
-                  <a href='#' className='btn btn-outline-primary btn-sm'>
+                  <a href='#' popup-link='https://trive.news' className='btn btn-outline-primary btn-sm'>
                     Website
                   </a>
                 </Col>
