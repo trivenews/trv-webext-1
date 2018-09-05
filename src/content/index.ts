@@ -1,23 +1,27 @@
 import cropperjs from 'cropperjs';
 import './style/index.scss';
-import scoreCardComponent from '../lib/scoreCardComponent';
-import processLinks from '../lib/processLinks';
+import { processLinks, storage, scoreCardComponent } from '../lib/';
 
-window.addEventListener('load', () => {
-  processLinks(uniqueLinks => {
-    const links: [{ link?: string; fullLink?: string }] = [{}];
+storage.config.content.get('showScoreOnLinks').then(shouldShowScore => {
+  // here we're first converting the value to an actual boolean
+  if (!!shouldShowScore) {
+    window.addEventListener('load', () => {
+      processLinks(uniqueLinks => {
+        const links: [{ link?: string; fullLink?: string }] = [{}];
 
-    for (let i = 0; i < uniqueLinks.length; i += 1) {
-      links.push({
-        link: uniqueLinks[i].getAttribute('href'),
-        fullLink: uniqueLinks[i].href,
+        for (let i = 0; i < uniqueLinks.length; i += 1) {
+          links.push({
+            link: uniqueLinks[i].getAttribute('href'),
+            fullLink: uniqueLinks[i].href,
+          });
+        }
+
+        browser.runtime.sendMessage({
+          links,
+        });
       });
-    }
-
-    browser.runtime.sendMessage({
-      links,
     });
-  });
+  }
 });
 
 let isCropperActivated = false;
