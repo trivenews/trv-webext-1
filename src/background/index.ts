@@ -1,5 +1,5 @@
 import screenshot, { saveFile } from './screenshot';
-import { storage } from '../lib';
+import { storage, contextMenu } from '../lib';
 
 // import {
 //   onActivated,
@@ -29,7 +29,10 @@ import { storage } from '../lib';
 // // update when the extension loads initially
 // // handleTabChange();
 
-// // browser.contextMenus.onClicked.addListener(contextMenu.handler);
+browser.contextMenus.onClicked.addListener(contextMenu.handler);
+
+// register context menus
+contextMenu.register();
 
 // This is a fake method that sends fake scores and caches them
 // ideally this would make a call to the server/IPFS
