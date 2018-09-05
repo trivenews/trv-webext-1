@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { Container, Row, Col } from 'reactstrap';
-import popupLinks from '../../../lib/popupLinks';
+import { popupLinks } from '../../../lib/';
 
 class Footer extends React.Component<{}, any> {
   constructor(props) {
