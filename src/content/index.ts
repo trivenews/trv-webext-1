@@ -34,11 +34,11 @@ const fakeImage = (imageSrc?: string): HTMLImageElement => {
   container.classList.add('fake-image');
 
   const image = new Image();
-  // image.classList.add('fake-image');
-  // image.classList.add('fake-image-pos');
+  image.classList.add('fake-image');
+  image.classList.add('fake-image-pos');
 
   image.src = imageSrc || browser.runtime.getURL('static/icons/pixel.png');
-  document.getElementsByTagName('body')[0].appendChild(container);
+  document.getElementsByTagName('body')[0].insertAdjacentElement('afterend', container);
   container.appendChild(image);
 
   image.onerror = e => {
@@ -86,15 +86,14 @@ browser.runtime.onMessage.addListener(message => {
     return true;
   }
 
-  const pixelimage = fakeImage();
-
   if (!isCropperActivated && message.data === 'activate-cropper') {
     isCropperActivated = true;
+    const pixelImageEl = fakeImage();
 
     // this create a fake image and activates cropper on
     // since the image is not visible the user only sees
     // the crop box
-    cropper = activateCropper(pixelimage);
+    cropper = activateCropper(pixelImageEl);
   } else {
     const cropBoxData = cropper.getCropBoxData();
 
@@ -102,7 +101,7 @@ browser.runtime.onMessage.addListener(message => {
     cropper.reset();
     cropper.clear();
     cropper.destroy();
-    pixelimage.remove();
+    (document.getElementById('fake-image-container') as HTMLDivElement).remove();
     isCropperActivated = false;
 
     // wait for 500ms so we don't get crop box in the screenshot
@@ -111,16 +110,16 @@ browser.runtime.onMessage.addListener(message => {
 
       com.then(
         screenshotDataUri => {
-          const screenshotImage = fakeImage(screenshotDataUri);
-          const screenshotCropper = new cropperjs(screenshotImage, { autoCrop: true });
+          const screenshotImageEl = fakeImage(screenshotDataUri);
+          const screenshotCropper = new cropperjs(screenshotImageEl, { autoCrop: true });
 
-          screenshotImage.addEventListener('ready', e => {
+          screenshotImageEl.addEventListener('ready', e => {
             screenshotCropper.setCropBoxData(cropBoxData);
             // emits the 'crop' event and sets the crop box
             screenshotCropper.crop();
           });
 
-          screenshotImage.addEventListener('crop', e => {
+          screenshotImageEl.addEventListener('crop', e => {
             const currentState = screenshotCropper.getCropBoxData();
             const croppedImage = screenshotCropper
               .getCroppedCanvas({
@@ -147,7 +146,7 @@ browser.runtime.onMessage.addListener(message => {
 
               // cleanup
               screenshotCropper.destroy();
-              screenshotImage.remove();
+              (document.getElementById('fake-image-container') as HTMLDivElement).remove();
             }
           });
         },
